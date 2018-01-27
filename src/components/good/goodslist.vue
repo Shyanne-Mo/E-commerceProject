@@ -82,9 +82,9 @@
                 <div class="wrap-box">
                     <ul class="img-list">
                         <li v-for="datas in item.datas" :key="datas.artID">
-                            <a :href="'#/site/goodsinfo/'+datas.artID" class="">
+                            <router-link :to="'/site/goodsinfo/'+datas.artID" class="">
                                 <div class="img-box">
-                                    <img :src="datas.img_url">
+                                    <img v-lazy="datas.img_url">
                                 </div>
                                 <div class="info">
                                     <h3>{{datas.artTitle}}</h3>
@@ -97,7 +97,7 @@
                                         </span>
                                     </p>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
@@ -122,7 +122,7 @@
         data (){
           return {
             goodsData:{},
-            goodsGroup:{}
+            goodsGroup:[]
           }
         },
         created (){

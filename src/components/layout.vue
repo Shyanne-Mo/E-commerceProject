@@ -23,7 +23,7 @@
                             <strong>|</strong>
                         </span>
                         <a href="" class="">
-                            <i class="iconfont icon-cart"></i>购物车(
+                            <i id="shopCartEnd" class="iconfont icon-cart"></i>购物车(
                             <span id="shoppingCartCount">
                                 <span>4</span>
                             </span>)</a>
