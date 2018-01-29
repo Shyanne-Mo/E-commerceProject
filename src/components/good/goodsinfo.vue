@@ -241,6 +241,7 @@
         },
         watch:{
             $route:function(newVal){
+                this.number=1;
                 this.getGoodsData();
                 this.getCommentData();
             }
@@ -250,7 +251,7 @@
             setTimeout(() => {
                 this.startOffset = $(this.$refs.shopCartStart).offset();
                 this.endOffset = $('#shopCartEnd').offset();
-                $('.pic').css({left:this.startOffset.left,top:this.startOffset.top});
+                // $('.pic').css({left:this.startOffset.left,top:this.startOffset.top});
             }, 500);
         },
         methods:{
@@ -280,7 +281,7 @@
             },
             handleCurrentChange(val){
                 this.currentPage = val;
-                this.getCommentData();
+                this.getCommentData(); 
             },
             // 提交评论
             postComment() {
@@ -316,7 +317,9 @@
             
             // 购物车动画
             addShopCart(){
-                 this.isShowPic=true;   
+                 this.isShowPic=true;
+                 let obj = {goodsId:this.$route.params.goodsId,count:this.number};
+                 this.$store.commit('addCount',obj); 
             },
             beforeEnter: function (el) {
                 el.style.left = this.startOffset.left + 'px';
