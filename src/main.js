@@ -18,6 +18,8 @@ import layout from './components/layout.vue'
 import goodslist from './components/good/goodslist.vue'
 import goodsinfo from './components/good/goodsinfo.vue'
 import shopcart from './components/shopcart/shopcart.vue'
+import order from './components/order/order.vue'
+import login from './components/login/login.vue'
 
 Vue.use(VueRouter);
 // 商品列表页轮播图
@@ -31,7 +33,9 @@ Vue.use(Vuex);
 // 全局导入 因为要给axios添加一个根地址 所以不在config中全局导入
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://39.108.135.214:8899/"
-    // 修改时间格式
+axios.defaults.withCredentials = true;
+
+// 修改时间格式
 Vue.filter('dateFmt', (input, dateFmtString = "YYYY-MM-DD") => {
     return moment(input).format(dateFmtString);
 })
@@ -48,11 +52,36 @@ const router = new VueRouter({
             children: [
                 { path: 'goodslist', component: goodslist },
                 { path: 'goodsinfo/:goodsId', component: goodsinfo },
-                { path: 'shopcart', component: shopcart }
+                { path: 'shopcart', component: shopcart },
+                { path: 'order/:ids', component: order, meta: { requireLogin: true } },
+                { path: 'login', component: login }
             ]
         }
     ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requireLogin) {
+        if (to.path != '/site/login') {
+            localStorage.setItem('visitPath', to.path)
+        }
+        const url = 'site/account/islogin';
+        axios.get(url).then(response => {
+            console.log(response.data)
+            if (response.data.code == 'nologin') {
+                // 跳转到登录页面
+                router.push({ path: 'login' });
+            } else {
+                // 如果已经是登录状态 则不阻拦
+                next();
+            }
+        })
+    } else {
+        next()
+    }
+
+})
+
 
 const store = new Vuex.Store({
     state: {

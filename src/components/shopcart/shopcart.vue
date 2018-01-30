@@ -102,8 +102,8 @@
                     <!--购物车底部-->
                     <div class="cart-foot clearfix">
                         <div class="right-box">
-                            <button class="button" onclick="javascript:location.href='/index.html';">继续购物</button>
-                            <button class="submit" onclick="formSubmit(this, '/', '/shopping.html');">立即结算</button>
+                            <button class="button" @click="goToBuy">继续购物</button>
+                            <button class="submit" @click="goToOrder">立即结算</button>
                         </div>
                     </div>
                     <!--购物车底部-->
@@ -118,84 +118,96 @@
 import { getLocalInfo } from "../../common/localStorageTool.js";
 import choosenumber from '../subcomponents/choosenumber.vue'
 export default {
-  data() {
-    return {
-      goodsData: [],
-      value:true,
-    };
-  },
-  created() {
-    this.getGoodsList();
-  },
-  components:{
-    choosenumber
-  },
-  computed:{
-    // 计算商品的总数和总金额
-    getTotalInfo(){
-      let totalNum = 0; 
-      let totalPrice = 0;
-      this.goodsData.forEach(item=>{
-        if(item.isSelected){
-          totalNum += item.buycount;
-          totalPrice += item.buycount * item.sell_price;
-        }
-      });
-      return {
-        totalNum,
-        totalPrice
-      }  
-    }
-  },
-  methods: {
-    getGoodsList() {
-      const goodsInfo = getLocalInfo();
-      let goodsArray = [];
-      // 如果localstorage中有值的时候 才去获取商品数据
-      if(JSON.stringify(goodsInfo)!='{}'){
-            // 拿到localstorage中的商品的id
-            for (let key in goodsInfo) {
-                goodsArray.push(key);
+    data() {
+        return {
+        goodsData: []
+        };
+    },
+    created() {
+        this.getGoodsList();
+    },
+    components:{
+        choosenumber
+    },
+    computed:{
+        // 计算商品的总数和总金额
+        getTotalInfo(){
+        let totalNum = 0; 
+        let totalPrice = 0;
+        this.goodsData.forEach(item=>{
+            if(item.isSelected){
+            totalNum += item.buycount;
+            totalPrice += item.buycount * item.sell_price;
             }
-            const url = `site/comment/getshopcargoods/${goodsArray.join(",")}`;
-            this.$axios.get(url).then(response => {
-                response.data.message.forEach(item => {
-                // 原来数据中的buycount都为0 修改为正确的值
-                item.buycount = goodsInfo[item.id];
-                item.isSelected = true;
-                });
-                this.goodsData = response.data.message;
-            });
-        }    
-    },
-    changeNumber(obj){
-      // 在子组件触发父组件的时候 调用修改localstorage的方法
-      this.$store.commit('updateCount',obj);
-      // 拿到修改后的对象,要同步修改当前goodsData中的数量的值 这样总数和总金额才会同步变化
-      this.goodsData.forEach(item=>{
-          if(item.id==obj.goodsId){
-              item.buycount = obj.choosenumber;
-          }
-      })
-    },
-    deleteGoods(goodsId,index){
-          this.$confirm('是否删除该商品?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-        // 删除localstorage中的值
-        this.$store.commit('deleteCount',goodsId);
-        // 删除购物车数据中的对应下标的值 触发计算属性
-        this.goodsData.splice(index,1);
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
         });
-      }
-        
+        return {
+            totalNum,
+            totalPrice
+        }  
+        }
+    },
+    methods: {
+        getGoodsList() {
+            const goodsInfo = getLocalInfo();
+            let goodsArray = [];
+            // 如果localstorage中有值的时候 才去获取商品数据
+            if(JSON.stringify(goodsInfo)!='{}'){
+                // 拿到localstorage中的商品的id
+                for (let key in goodsInfo) {
+                    goodsArray.push(key);
+                }
+                const url = `site/comment/getshopcargoods/${goodsArray.join(",")}`;
+                this.$axios.get(url).then(response => {
+                    response.data.message.forEach(item => {
+                    // 原来数据中的buycount都为0 修改为正确的值
+                    item.buycount = goodsInfo[item.id];
+                    item.isSelected = true;
+                    });
+                    this.goodsData = response.data.message;
+                });
+            }    
+        },
+        changeNumber(obj){
+            // 在子组件触发父组件的时候 调用修改localstorage的方法
+            this.$store.commit('updateCount',obj);
+            // 拿到修改后的对象,要同步修改当前goodsData中的数量的值 这样总数和总金额才会同步变化
+            this.goodsData.forEach(item=>{
+                if(item.id==obj.goodsId){
+                    item.buycount = obj.choosenumber;
+                }
+            })
+        },
+        deleteGoods(goodsId,index){
+            this.$confirm('是否删除该商品?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+            // 删除localstorage中的值
+            this.$store.commit('deleteCount',goodsId);
+            // 删除购物车数据中的对应下标的值 触发计算属性
+            this.goodsData.splice(index,1);
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
+        },
+        goToBuy(){
+            this.$router.push({path:'/site/goodslist'});
+        },
+        goToOrder(){
+            const ids =[];
+            this.goodsData.forEach(item=>{
+                if(item.isSelected){
+                    ids.push(item.id);
+                }
+            });
+            // 去到订单页面
+            this.$router.push({path:`/site/order/${ids.join(',')}`});
+        }
+            
     }
   
 };

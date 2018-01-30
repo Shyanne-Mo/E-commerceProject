@@ -10,16 +10,16 @@
                         <a target="_blank" href="#"></a>
                     </div>
                     <div id="menu" class="right-box">
-                        <span style="display: none;">
-                            <a href="" class="">登录</a>
+                        <span style="display: none;" v-show="!isLogin">
+                            <router-link to="/site/login" class="">登录</router-link>
                             <strong>|</strong>
                             <a href="" class="">注册</a>
                             <strong>|</strong>
                         </span>
-                        <span>
+                        <span v-show="isLogin">
                             <a href="" class="">会员中心</a>
                             <strong>|</strong>
-                            <a>退出</a>
+                            <a @click="logout">退出</a>
                             <strong>|</strong>
                         </span>
                         <router-link to="/site/shopcart" class="">
@@ -119,7 +119,21 @@
 </style>
 
 <script>
+import bus from '../common/common.js';
+import {ISLOGIN} from '../common/common.js';
 export default {
+    data(){
+        return {
+            // 最开始默认没有登录
+            isLogin:false
+        }
+    },
+    created(){
+        bus.$on(ISLOGIN,status=>{
+            this.isLogin = status;
+        })
+        this.checkLogin();
+    },
     mounted () {
         $("#menu2 li a").wrapInner('<span class="out"></span>');
             $("#menu2 li a").each(function () {
@@ -134,6 +148,23 @@ export default {
                 $(".out", this).stop().animate({ 'top': '0px' }, 300); // move up - show
                 $(".over", this).stop().animate({ 'top': '-48px' }, 300); // move up - hide
             });  
+    },
+    methods:{
+        logout(){
+            const url='site/account/logout';
+            this.$axios.get(url).then(response=>{
+                this.isLogin=false;
+                this.$router.push({path:'/site/goodslist'})
+            })
+        },
+        checkLogin(){
+            const url = 'site/account/islogin';
+            this.$axios.get(url).then(response=>{
+                if(response.data.code=='logined'){
+                    this.isLogin=true;
+                }
+            })
+        }
     }
 };
 </script>

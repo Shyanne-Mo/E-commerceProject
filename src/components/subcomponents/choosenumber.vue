@@ -41,8 +41,8 @@
         if(this.number<=1) return;
         this.number--;
         this.$emit('changeNum',{
-          choosenumber:this.number,
-          goodsId:this.goodsId
+          goodsId:this.goodsId,
+          choosenumber:this.number
         });
       }
     }
