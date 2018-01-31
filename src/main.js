@@ -20,6 +20,7 @@ import goodsinfo from './components/good/goodsinfo.vue'
 import shopcart from './components/shopcart/shopcart.vue'
 import order from './components/order/order.vue'
 import login from './components/login/login.vue'
+import payOrder from './components/order/payOrder.vue'
 
 Vue.use(VueRouter);
 // 商品列表页轮播图
@@ -41,7 +42,7 @@ Vue.filter('dateFmt', (input, dateFmtString = "YYYY-MM-DD") => {
 })
 
 // 局部导入
-import { addLocalInfo, getTotalCount, updateLocalInfo, deleteLocalInfo } from './common/localStorageTool.js'
+import { addLocalInfo, getTotalCount, updateLocalInfo, deleteLocalInfo, updateLocalIds } from './common/localStorageTool.js'
 
 const router = new VueRouter({
     routes: [
@@ -54,7 +55,8 @@ const router = new VueRouter({
                 { path: 'goodsinfo/:goodsId', component: goodsinfo },
                 { path: 'shopcart', component: shopcart },
                 { path: 'order/:ids', component: order, meta: { requireLogin: true } },
-                { path: 'login', component: login }
+                { path: 'login', component: login },
+                { path: 'payOrder/:orderid', component: payOrder }
             ]
         }
     ]
@@ -67,7 +69,6 @@ router.beforeEach((to, from, next) => {
         }
         const url = 'site/account/islogin';
         axios.get(url).then(response => {
-            console.log(response.data)
             if (response.data.code == 'nologin') {
                 // 跳转到登录页面
                 router.push({ path: 'login' });
@@ -106,6 +107,9 @@ const store = new Vuex.Store({
         },
         deleteCount(state, goodsObj) {
             state.buyCount = deleteLocalInfo(goodsObj);
+        },
+        updateCounts(state, goodsObj) {
+            state.buyCount = updateLocalIds(goodsObj);
         }
     }
 })

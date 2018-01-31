@@ -58,3 +58,8 @@ export const deleteLocalInfo = (goodsId) => {
     localStorage.setItem(key, JSON.stringify(goodsInfo));
     return getTotalCount();
 }
+
+export const updateLocalIds = (obj) => {
+    localStorage.setItem(key, JSON.stringify(obj));
+    return getTotalCount();
+}

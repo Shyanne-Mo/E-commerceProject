@@ -199,11 +199,15 @@ export default {
         },
         goToOrder(){
             const ids =[];
+            // const goodsObj ={};
             this.goodsData.forEach(item=>{
                 if(item.isSelected){
                     ids.push(item.id);
+                    // goodsObj[goodsId] = item.id;
+                    // goodsObj[count] = item.buycount;
                 }
             });
+            // 修改本地localstorage的商品数据
             // 去到订单页面
             this.$router.push({path:`/site/order/${ids.join(',')}`});
         }

@@ -41,101 +41,27 @@
                         <span>1、收货地址</span>
                     </h2>
                     <div id="orderForm" name="orderForm" url="">
-                        <div class="form-box address-info">
-                            <dl class="form-group">
-                                <dt>收货人姓名：</dt>
-                                <dd>
-                                    <input name="book_id" id="book_id" type="hidden" value="0">
-                                    <input name="accept_name" id="accept_name" type="text" class="input" value="" datatype="s2-20" sucmsg=" ">
-                                    <span class="Validform_checktip">*收货人姓名</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>所属地区：</dt>
-                                <dd>
-                                    <select id="province" name="province" class="select">
-                                            <option value="">所属省份</option>
-                                            <option value="北京市">北京市</option>
-                                            <option value="天津市">天津市</option>
-                                            <option value="河北省">河北省</option>
-                                            <option value="山西省">山西省</option>
-                                            <option value="内蒙古自治区">内蒙古自治区</option>
-                                            <option value="辽宁省">辽宁省</option>
-                                            <option value="吉林省">吉林省</option>
-                                            <option value="黑龙江省">黑龙江省</option>
-                                            <option value="上海市">上海市</option>
-                                            <option value="江苏省">江苏省</option>
-                                            <option value="浙江省">浙江省</option>
-                                            <option value="安徽省">安徽省</option>
-                                            <option value="福建省">福建省</option>
-                                            <option value="江西省">江西省</option>
-                                            <option value="山东省">山东省</option>
-                                            <option value="河南省">河南省</option>
-                                            <option value="湖北省">湖北省</option>
-                                            <option value="湖南省">湖南省</option>
-                                            <option value="广东省">广东省</option>
-                                            <option value="广西壮族自治区">广西壮族自治区</option>
-                                            <option value="海南省">海南省</option>
-                                            <option value="重庆市">重庆市</option>
-                                            <option value="四川省">四川省</option>
-                                            <option value="贵州省">贵州省</option>
-                                            <option value="云南省">云南省</option>
-                                            <option value="西藏自治区">西藏自治区</option>
-                                            <option value="陕西省">陕西省</option>
-                                            <option value="甘肃省">甘肃省</option>
-                                            <option value="青海省">青海省</option>
-                                            <option value="宁夏回族自治区">宁夏回族自治区</option>
-                                            <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
-                                            <option value="香港特别行政区">香港特别行政区</option>
-                                            <option value="澳门特别行政区">澳门特别行政区</option>
-                                            <option value="台湾省">台湾省</option>
-                                            <option value="其它">其它</option>
-                                        </select>
-                                    <select id="city" name="city" class="select">
-                                            <option value="">所属城市</option>
-                                        </select>
-                                    <select id="area" name="area" class="select" datatype="*" sucmsg=" ">
-                                            <option value="">所属地区</option>
-                                        </select>
-                                    <span class="Validform_checktip">*请选择您所在的地区</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>详细地址：</dt>
-                                <dd>
-                                    <input name="address" id="address" type="text" class="input" value="" datatype="*2-100" sucmsg=" ">
-                                    <span class="Validform_checktip">*除上面所属地区外的详细地址</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>手机号码：</dt>
-                                <dd>
-                                    <input name="mobile" id="mobile" type="text" class="input" value="" datatype="m" sucmsg=" ">
-                                    <span class="Validform_checktip">*收货人的手机号码</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>联系电话：</dt>
-                                <dd>
-                                    <input name="telphone" id="telphone" type="text" class="input" value="">
-                                    <span class="Validform_checktip">收货人的联系电话，非必填</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>电子邮箱：</dt>
-                                <dd>
-                                    <input name="email" id="email" type="text" class="input" value="">
-                                    <span class="Validform_checktip">方便通知订单状态，非必填</span>
-                                </dd>
-                            </dl>
-                            <dl class="form-group">
-                                <dt>邮政编码：</dt>
-                                <dd>
-                                    <input name="post_code" id="post_code" type="txt" class="input code">
-                                    <span class="Validform_checktip">所在地区的邮政编码，非必填</span>
-                                </dd>
-                            </dl>
-                        </div>
+                        <el-form :model="order" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm form-box address-info">
+                            <el-form-item label="收货人姓名" prop="accept_name" label-width="100px" style="width:500px">
+                                <el-input v-model="order.accept_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="选择地区" prop="area" label-width="100px" style="width:500px">
+                                <v-distpicker @selected="onSelected" :province="order.area.province.value" :city="order.area.city.value" :area="order.area.area.value">
+                                </v-distpicker>
+                            </el-form-item>
+                            <el-form-item label="详细地址" prop="address" label-width="100px" style="width:500px">
+                                <el-input v-model="order.address"></el-input>
+                            </el-form-item>
+                            <el-form-item label="手机号码" prop="mobile" label-width="100px" style="width:500px">
+                                <el-input v-model="order.mobile"></el-input>
+                            </el-form-item>
+                            <el-form-item label="电子邮箱" prop="email" label-width="100px" style="width:500px">
+                                <el-input v-model="order.email"></el-input>
+                            </el-form-item>
+                            <el-form-item label="邮政编码" prop="post_code" label-width="100px" style="width:500px">
+                                <el-input v-model="order.post_code"></el-input>
+                            </el-form-item>
+                        </el-form>
                         <h2 class="slide-tit">
                             <span>2、支付方式</span>
                         </h2>
@@ -143,10 +69,8 @@
                             <!--取得一个DataTable-->
                             <li>
                                 <label>
-                                        <input name="payment_id" type="radio" onclick="paymentAmountTotal(this);" value="1">
-                                        <input name="payment_price" type="hidden" value="0.00">在线支付
-                                        <em>手续费：0.00元</em>
-                                    </label>
+                                        <el-radio v-model="order.payment_id" label='6'>在线支付</el-radio>
+                                </label>
                             </li>
                         </ul>
                         <h2 class="slide-tit">
@@ -154,14 +78,23 @@
                         </h2>
                         <ul class="item-box clearfix">
                             <!--取得一个DataTable-->
+                            <el-radio-group v-model="order.express_id" @change="changeExpress">
                             <li>
                                 <label>
-                                        <input name="express_id" type="radio" onclick="freightAmountTotal(this);" value="1" datatype="*" sucmsg=" ">
-                                        <input name="express_price" type="hidden" value="20.00">顺丰快递
-                                        <em>费用：20.00元</em>
-                                        <span class="Validform_checktip"></span>
-                                    </label>
+                                       <el-radio label="1">顺丰快递:20元</el-radio>
+                                </label>
                             </li>
+                            <li>
+                                <label>
+                                       <el-radio label="2">圆通快递:10元</el-radio>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                       <el-radio label="3">韵达快递:8元</el-radio>
+                                </label>
+                            </li>
+                            </el-radio-group>
                         </ul>
                         <h2 class="slide-tit">
                             <span>4、商品清单</span>
@@ -189,7 +122,7 @@
                                                 ￥{{item.sell_price}}
                                             </span>
                                     </td>
-                                    <td align="center">1</td>
+                                    <td align="center">{{item.buycount}}</td>
                                     <td>
                                         <span class="red">
                                                 ￥{{item.sell_price * item.buycount}}
@@ -207,27 +140,27 @@
                                 <dl>
                                     <dt>订单备注(100字符以内)</dt>
                                     <dd>
-                                        <textarea name="message" class="input" style="height:35px;"></textarea>
+                                        <textarea v-model="order.message" name="message" class="input" style="height:35px;"></textarea>
                                     </dd>
                                 </dl>
                             </div>
                             <div class="right-box">
                                 <p>
                                     商品
-                                    <label class="price">1</label> 件&nbsp;&nbsp;&nbsp;&nbsp; 商品金额：￥
-                                    <label id="goodsAmount" class="price">2299.00</label> 元&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <label class="price">{{getTotalInfo.totalNum}}</label> 件&nbsp;&nbsp;&nbsp;&nbsp; 商品金额：￥
+                                    <label id="goodsAmount" class="price">{{getTotalInfo.totalPrice}}</label> 元&nbsp;&nbsp;&nbsp;&nbsp;
                                 </p>
                                 <p>
                                     运费：￥
-                                    <label id="expressFee" class="price">0.00</label> 元
+                                    <label id="expressFee" class="price">{{order.expressMoment}}</label> 元
                                 </p>
                                 <p class="txt-box">
                                     应付总金额：￥
-                                    <label id="totalAmount" class="price">2299.00</label>
+                                    <label id="totalAmount" class="price">{{getTotalInfo.totalPrice+order.expressMoment}}</label>
                                 </p>
                                 <p class="btn-box">
-                                    <a class="btn button" href="/cart.html">返回购物车</a>
-                                    <input id="btnSubmit" name="btnSubmit" type="submit" value="确认提交" class="btn submit">
+                                    <el-button @click="back" type="primary" round>返回购物车</el-button>
+                                    <el-button @click="commit" type="success" round>确认提交</el-button>
                                 </p>
                             </div>
                         </div>
@@ -240,22 +173,135 @@
 </template>
 
 <script>
+import VDistpicker from 'v-distpicker'
+import {getLocalInfo} from '../../common/localStorageTool.js'
+
   export default{
     data(){
+        var checkMobile = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('必须输入数字'));
+          } else {
+              callback();
+          }
+        }, 1000);
+      };
         return {
-            goodsData:[]
+            goodsData:[],
+            order:{
+                accept_name:'zhangsan',
+                address:'中粮商务公园',
+                mobile:'18865500954',
+                email:'abc@itcast.cn',
+                post_code:'548000',
+                payment_id:'6',
+                expressMoment:20,
+                express_id:'1',
+                goodsAmount:0, //商品总价格
+                message:'请尽快发货',
+                goodsids:'',
+                cargoodsobj:{},
+                area:{
+                    "province": {
+                        "code": "440000",
+                        "value": "广东省"
+                    },
+                    "city": {
+                        "code": "440300",
+                        "value": "深圳市"
+                    },
+                    "area": {
+                        "code": "440306",
+                        "value": "宝安区"
+                    }
+                }
+            },
+            rules:{
+                accept_name:[{required:true}],
+                address:[{required:true}],
+                mobile:[{required:true,validator:checkMobile,trigger: 'blur'}],
+                email:[{required:true}],
+                post_code:[{required:true}],
+                area:[{required:true,message:"请选择所属地区",trigger: 'blur'}]
+            }
         }
     },
     created(){
         this.getGoodsData();
     },
+    components: { 
+        VDistpicker 
+    },
+
+    computed:{
+        getTotalInfo(){
+            let totalNum = 0;
+            let totalPrice =0;
+            this.goodsData.forEach(item => {
+                totalNum += item.buycount;
+                totalPrice += item.buycount * item.sell_price;
+            });
+            this.order.goodsAmount = totalPrice;
+            return {
+                totalNum,totalPrice
+            }
+        }
+    },
     methods:{
         getGoodsData(){
-            const url=`site/validate/order/getgoodslist/${this.$route.params.ids}`
+            const url=`site/validate/order/getgoodslist/${this.$route.params.ids}`;
+            const localInfo = getLocalInfo();
             this.$axios.get(url).then(response=>{
+                response.data.message.forEach(item=>{
+                    item.buycount = localInfo[item.id];
+                })
                 this.goodsData = response.data.message
-                console.log(this.goodsData);
             })
+        },
+        // 省级联动最后一个选项选择后触发的事件
+        onSelected(data){
+            this.order.area = data;
+        },
+        // 回到购物车
+        back(){
+            this.$router.push({path:'/site/shopcart'})
+        },
+        // 提交订单
+        commit(){
+            const url = 'site/validate/order/setorder';
+            // 拿到选中的ids
+            this.order.goodsids = this.$route.params.ids;
+            this.goodsData.forEach(item=>{
+                this.order.cargoodsobj[item.id] = item.buycount; 
+            });
+            this.$axios.post(url,this.order).then(response=>{
+                if(response.data.status==1){
+                    // 数据错误的话 不跳转
+                    this.$message.error(response.data.message);
+                    return;
+                }else {
+                    // 把订单中的商品数据 重新存到localstorage中
+                    this.$store.commit('updateCounts',this.order.cargoodsobj);
+                    this.$router.push({path:`/site/payOrder/${response.data.message.orderid}`})
+                }
+            })
+        },
+        changeExpress(){
+            switch(this.order.express_id){
+                case '1':
+                    this.order.expressMoment = 20;
+                    break;
+                case '2':
+                    this.order.expressMoment = 10;
+                    break;
+                case '3':
+                    this.order.expressMoment = 8;
+                    break;
+            }
         }
     }
   }
