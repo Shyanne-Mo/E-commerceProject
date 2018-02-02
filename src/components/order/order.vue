@@ -285,7 +285,7 @@ import {getLocalInfo} from '../../common/localStorageTool.js'
                     return;
                 }else {
                     // 把订单中的商品数据 重新存到localstorage中
-                    this.$store.commit('updateCounts',this.order.cargoodsobj);
+                    this.$store.commit('updateCounts',this.order.goodsids);
                     this.$router.push({path:`/site/payOrder/${response.data.message.orderid}`})
                 }
             })

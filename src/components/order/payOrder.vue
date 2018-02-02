@@ -87,11 +87,18 @@ import '../../statics/site/js/qrcode/jqueryqr.js'
   export default {
     data(){
       return {
-        orderData:{}
+        orderData:{},
+        timerId:null
       }
     },
     created(){
       this.getOrderData();
+      this.getOrderStatus();
+    },
+    beforeDestroy(){
+        if(this.timerId){
+            clearInterval(this.timerId);
+        }
     },
     mounted(){
       // 初始化jquery的qrcode插件
@@ -99,7 +106,7 @@ import '../../statics/site/js/qrcode/jqueryqr.js'
         $('#container2').erweima({
             mode: 4,
             mSize: 22,//最大只能设置这么大，否则太大，扫描不出来
-            text: "http://www.baidu.com",
+            text: `http://39.108.135.214:8899/site/validate/pay/alipay/${this.$route.params.orderid}`,
             image: $("#imgLogo")[0]
         });
       }, 200);
@@ -110,6 +117,17 @@ import '../../statics/site/js/qrcode/jqueryqr.js'
         this.$axios.get(url).then(response=>{
           this.orderData = response.data.message[0]
         })
+      },
+      getOrderStatus(){
+          this.timerId = setInterval(() => {
+              const url = `site/validate/order/getorder/${this.$route.params.orderid}`;
+              this.$axios.get(url).then(response=>{
+                  let status = response.data.message[0].status
+                  if(status==2){
+                      this.$router.push({path:'/site/pcPaySuccess'});
+                  }
+              })
+          }, 3000);
       }
     }
   }

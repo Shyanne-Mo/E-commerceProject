@@ -21,6 +21,8 @@ import shopcart from './components/shopcart/shopcart.vue'
 import order from './components/order/order.vue'
 import login from './components/login/login.vue'
 import payOrder from './components/order/payOrder.vue'
+import vipcenter from './components/member/vipcenter.vue'
+import pcPaySuccess from './components/order/pcPaySuccess.vue'
 
 Vue.use(VueRouter);
 // 商品列表页轮播图
@@ -54,9 +56,11 @@ const router = new VueRouter({
                 { path: 'goodslist', component: goodslist },
                 { path: 'goodsinfo/:goodsId', component: goodsinfo },
                 { path: 'shopcart', component: shopcart },
-                { path: 'order/:ids', component: order, meta: { requireLogin: true } },
                 { path: 'login', component: login },
-                { path: 'payOrder/:orderid', component: payOrder }
+                { path: 'order/:ids', component: order, meta: { requireLogin: true } },
+                { path: 'payOrder/:orderid', component: payOrder, meta: { requireLogin: true } },
+                { path: 'vipcenter', component: vipcenter, meta: { requireLogin: true } },
+                { path: 'pcPaySuccess', component: pcPaySuccess, meta: { requireLogin: true } }
             ]
         }
     ]

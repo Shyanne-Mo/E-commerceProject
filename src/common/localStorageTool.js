@@ -60,6 +60,12 @@ export const deleteLocalInfo = (goodsId) => {
 }
 
 export const updateLocalIds = (obj) => {
-    localStorage.setItem(key, JSON.stringify(obj));
+    // 传过来的是字符串
+    obj = obj.split(',');
+    const goodsInfo = getLocalInfo();
+    obj.forEach(item => {
+        delete goodsInfo[item];
+    });
+    localStorage.setItem(key, JSON.stringify(goodsInfo));
     return getTotalCount();
 }
