@@ -37,8 +37,8 @@
                                                 </h2>
                                                 <div class="list">
                                                     <p>
-                                                        <a href="#/site/member/orderlist" class="">
-                                                            <i class="iconfont icon-arrow-right"></i>交易订单</a>
+                                                        <router-link to="/site/myOrder" class="">
+                                                            <i class="iconfont icon-arrow-right"></i>交易订单</router-link>
                                                     </p>
                                                 </div>
                                             </li>
