@@ -37,9 +37,9 @@
                     <div id="menu2" class="nav-box menuhd">
                         <ul>
                             <li class="index">
-                                <a href="#" class="">
+                                <router-link to="/site/goodslist" class="">
                                     <span class="out" style="top: 0px;">首页</span>
-                                </a>
+                                </router-link>
                             </li>
                             <li class="news">
                                 <a href="#" class="">

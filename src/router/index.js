@@ -9,17 +9,41 @@ Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://39.108.135.214:8899/"
 axios.defaults.withCredentials = true;
 
-import layout from '../components/layout.vue'
-import goodslist from '../components/good/goodslist.vue'
-import goodsinfo from '../components/good/goodsinfo.vue'
-import shopcart from '../components/shopcart/shopcart.vue'
-import order from '../components/order/order.vue'
-import login from '../components/login/login.vue'
-import payOrder from '../components/order/payOrder.vue'
-import vipcenter from '../components/member/vipcenter.vue'
-import pcPaySuccess from '../components/order/pcPaySuccess.vue'
-import myOrder from '../components/member/myOrder.vue'
-import orderInfo from '../components/member/orderInfo.vue'
+// import layout from '../components/layout.vue'
+// import goodslist from '../components/good/goodslist.vue'
+// import goodsinfo from '../components/good/goodsinfo.vue'
+// import shopcart from '../components/shopcart/shopcart.vue'
+// import order from '../components/order/order.vue'
+// import login from '../components/login/login.vue'
+// import payOrder from '../components/order/payOrder.vue'
+// import vipcenter from '../components/member/vipcenter.vue'
+// import pcPaySuccess from '../components/order/pcPaySuccess.vue'
+// import myOrder from '../components/member/myOrder.vue'
+// import orderInfo from '../components/member/orderInfo.vue'
+
+const layout = () =>
+    import ('../components/layout.vue')
+const goodslist = () =>
+    import ('../components/good/goodslist.vue')
+const goodsinfo = () =>
+    import ('../components/good/goodsinfo.vue')
+const shopcart = () =>
+    import ('../components/shopcart/shopcart.vue')
+const order = () =>
+    import ('../components/order/order.vue')
+const login = () =>
+    import ('../components/login/login.vue')
+const payOrder = () =>
+    import ('../components/order/payOrder.vue')
+const vipcenter = () =>
+    import ('../components/member/vipcenter.vue')
+const pcPaySuccess = () =>
+    import ('../components/order/pcPaySuccess.vue')
+const myOrder = () =>
+    import ('../components/member/myOrder.vue')
+const orderInfo = () =>
+    import ('../components/member/orderInfo.vue')
+
 
 
 const router = new VueRouter({
